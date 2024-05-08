@@ -7,7 +7,7 @@ from typing import Optional, Union, cast
 import requests
 
 from core.model_runtime.entities.common_entities import I18nObject
-from core.model_runtime.entities.llm_entities import LLMResult, LLMResultChunk, LLMResultChunkDelta
+from core.model_runtime.entities.llm_entities import LLMResult, LLMResultChunk, LLMResultChunkDelta, LLMMode
 from core.model_runtime.entities.message_entities import (
     AssistantPromptMessage,
     ImagePromptMessageContent,
@@ -180,9 +180,9 @@ class LixiangLargeLanguageModel(_CommonLixiangOpenAI, LargeLanguageModel):
             )
         ]
 
-        model_properties = {}
-
-        model_properties[ModelPropertyKey.CONTEXT_SIZE] = int(credentials.get('context_size', '8192'))
+        completion_model = LLMMode.CHAT.value
+        model_properties = {ModelPropertyKey.MODE: completion_model,
+                            ModelPropertyKey.CONTEXT_SIZE: int(credentials.get('context_size', '8192'))}
 
         entity = AIModelEntity(
             model=model,
