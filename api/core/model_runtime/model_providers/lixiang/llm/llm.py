@@ -269,7 +269,6 @@ class LixiangLargeLanguageModel(_CommonLixiangOpenAI, LargeLanguageModel):
             timeout=(10, 60),
             stream=stream
         )
-        print("lixiang response ", response)
 
         if response.encoding is None or response.encoding == 'ISO-8859-1':
             response.encoding = 'utf-8'
