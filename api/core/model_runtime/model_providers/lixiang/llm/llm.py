@@ -7,7 +7,7 @@ from typing import Optional, Union, cast
 import requests
 
 from core.model_runtime.entities.common_entities import I18nObject
-from core.model_runtime.entities.llm_entities import LLMResult, LLMResultChunk, LLMResultChunkDelta, LLMMode
+from core.model_runtime.entities.llm_entities import LLMMode, LLMResult, LLMResultChunk, LLMResultChunkDelta
 from core.model_runtime.entities.message_entities import (
     AssistantPromptMessage,
     ImagePromptMessageContent,
@@ -146,6 +146,9 @@ class LixiangLargeLanguageModel(_CommonLixiangOpenAI, LargeLanguageModel):
         """
             generate custom model entities from credentials
         """
+        max_tokens = 10240
+        if model.endswith('32k'):
+            max_tokens = 32000
 
         rules = [
             ParameterRule(
@@ -171,7 +174,7 @@ class LixiangLargeLanguageModel(_CommonLixiangOpenAI, LargeLanguageModel):
                 type=ParameterType.INT,
                 use_template='max_tokens',
                 min=1,
-                max=10240,
+                max=max_tokens,
                 default=4096,
                 label=I18nObject(
                     zh_Hans='最大生成长度',
@@ -182,7 +185,7 @@ class LixiangLargeLanguageModel(_CommonLixiangOpenAI, LargeLanguageModel):
 
         completion_model = LLMMode.CHAT.value
         model_properties = {ModelPropertyKey.MODE: completion_model,
-                            ModelPropertyKey.CONTEXT_SIZE: int(credentials.get('context_size', '8192'))}
+                            ModelPropertyKey.CONTEXT_SIZE: int(credentials.get('context_size', max_tokens))}
 
         entity = AIModelEntity(
             model=model,

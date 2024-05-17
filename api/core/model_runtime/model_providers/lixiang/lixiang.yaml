@@ -14,6 +14,7 @@ help:
     en_US: https://li.feishu.cn/wiki/YZYsw7ueGixOYskmee2c4IPMnHN
 supported_model_types:
   - llm
+  - text-embedding
 configurate_methods:
   - customizable-model
 model_credential_schema:
@@ -35,6 +36,9 @@ model_credential_schema:
         zh_Hans: '在此输入您的 API 域名，如：https://example.com/xxx'
         en_US: 'Enter your API Endpoint, eg: https://example.com/xxx'
     - variable: X-CHJ-GWToken
+      show_on:
+        - variable: __model_type
+          value: llm
       label:
         en_US: Lixiang internal API Key
         zh_Hans: Lixiang internal API Key
