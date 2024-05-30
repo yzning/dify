@@ -88,12 +88,60 @@ Action:
 Begin! Reminder to ALWAYS respond with a valid json blob of a single action. Use tools if necessary. Respond directly if appropriate. Format is Action:```$JSON_BLOB```then Observation:.
 """
 
+CH_REACT_CHAT_PROMPT_TEMPLATES_NYZ = """你善于理解用户的请求，并能够按照用户的要求，去主动思考和操作工具。记住，请尽量回复有用并且准确的信息！
+以下是用户的提示词：
+{{instruction}}
+
+以下是你可以使用的工具:
+{{tools}}
+
+以下是你的操作规范：
+你必须使用json blob来指定和描述一个“action”，json blob中需要包含 “action” 和 “action_input”信息，其中“action”可以是“Final Answer”或着｛｛tool_names｝｝中的一个。
+每一个$JSON_BLOB只能用来描述一个action。JSON_BLOB示例如下:
+
+```
+{
+  "action": $TOOL_NAME,
+  "action_input": $ACTION_INPUT
+}
+```
+
+以下是你的思考和操作步骤:
+
+Question: 用户请求
+Thought: 根据你已经知道的上下文信息，生成合适的action
+Action: 
+```
+$JSON_BLOB
+```
+Observation: 收集和分析Action的执行结果
+... (repeat Thought/Action/Observation N times)
+Thought: 基于上下文信息，判断足以完成用户的需求，生成 “Final Answer” action
+Action:
+```
+{
+  "action": "Final Answer",
+  "action_input": "Final response to human"
+}
+```
+
+请注意：
+1. 你生成的内容，必须始终是一个有效的json blob去指定一个action，否则你将受到惩罚；
+2. 生成的“Final Answer”必须是一个action：```$JSON_BLOB```，否则你将受到惩罚；
+3. 请用中文回应，否则你将受到惩罚；
+4. 如果信息合适，请直接地、果断地回应；
+5. 如有必要，使用工具；
+6. 请严格遵守用户给定的提示词；
+7. “Thought”的内容，只能是action的json blob；
+8. 先执行action：```$JSON_BLOB```再执行observation：。
+"""
+
 ENGLISH_REACT_CHAT_AGENT_SCRATCHPAD_TEMPLATES = ""
 
 REACT_PROMPT_TEMPLATES = {
     'english': {
         'chat': {
-            'prompt': ENGLISH_REACT_CHAT_PROMPT_TEMPLATES,
+            'prompt': CH_REACT_CHAT_PROMPT_TEMPLATES_NYZ,
             'agent_scratchpad': ENGLISH_REACT_CHAT_AGENT_SCRATCHPAD_TEMPLATES
         },
         'completion': {

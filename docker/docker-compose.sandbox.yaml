@@ -1,0 +1,33 @@
+version: '3'
+services:
+  sandbox:
+    image: langgenius/dify-sandbox:0.2.0
+    restart: always
+    environment:
+      API_KEY: dify-sandbox
+      GIN_MODE: 'release'
+      WORKER_TIMEOUT: 15
+      ENABLE_NETWORK: 'true'
+      HTTP_PROXY: 'http://ssrf_proxy:3128'
+      HTTPS_PROXY: 'http://ssrf_proxy:3128'
+    volumes:
+      - ./volumes/sandbox/dependencies:/dependencies
+    networks:
+      - ssrf_proxy_network
+
+  ssrf_proxy:
+    image: ubuntu/squid:latest
+    restart: always
+    ports:
+      - "3128:3128"
+      - "8194:8194"
+    volumes:
+      - ./volumes/ssrf_proxy/squid.conf:/etc/squid/squid.conf
+    networks:
+      - ssrf_proxy_network
+      - default
+
+networks:
+  ssrf_proxy_network:
+    driver: bridge
+    internal: true
