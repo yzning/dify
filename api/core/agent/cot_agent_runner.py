@@ -145,6 +145,16 @@ class CotAgentRunner(BaseAgentRunner, ABC):
                     scratchpad.action_str = json.dumps(chunk.dict())
                     scratchpad.action = action
                 else:
+                    if len(chunk) > 10:
+                        chunk = chunk.strip()
+                        if chunk.startswith('{'):
+                            chunk = chunk[1:]
+                        if chunk.endswith('}'):
+                            chunk = chunk[:-1]
+
+                        chunk = chunk.replace('"action": ', '').replace('"action_input": ', '').replace('"Final Answer"', '')
+                        chunk = '\n' + chunk
+
                     scratchpad.agent_response += chunk
                     scratchpad.thought += chunk
                     yield LLMResultChunk(
