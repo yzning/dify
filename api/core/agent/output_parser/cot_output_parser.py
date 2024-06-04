@@ -57,6 +57,10 @@ class CotAgentOutputParser:
         thought_str = 'thought:'
         thought_idx = 0
 
+        answer_cache = ''
+        answer_str = 'final answer:'
+        answer_idx = 0
+
         for response in llm_response:
             if response.delta.usage:
                 usage_dict['usage'] = response.delta.usage
@@ -84,6 +88,33 @@ class CotAgentOutputParser:
                     code_block_delimiter_count = 0
 
                 if not in_code_block and not in_json:
+                    if delta.lower() == answer_str[answer_idx] and answer_idx == 0:
+                        if last_character not in ['\n', ' ', '']:
+                            index += steps
+                            yield delta
+                            continue
+
+                        answer_cache += delta
+                        answer_idx += 1
+                        if answer_idx == len(answer_str):
+                            answer_cache = ''
+                            answer_idx = 0
+                        index += steps
+                        continue
+                    elif delta.lower() == answer_str[answer_idx] and answer_idx > 0:
+                        answer_cache += delta
+                        answer_idx += 1
+                        if answer_idx == len(answer_str):
+                            answer_cache = ''
+                            answer_idx = 0
+                        index += steps
+                        continue
+                    else:
+                        if answer_cache:
+                            yield answer_cache
+                            answer_cache = ''
+                            answer_idx = 0
+
                     if delta.lower() == action_str[action_idx] and action_idx == 0:
                         if last_character not in ['\n', ' ', '']:
                             index += steps
