@@ -4,6 +4,7 @@ import {
 } from 'react'
 import { useKeyPress } from 'ahooks'
 import cn from 'classnames'
+import { RiCloseLine } from '@remixicon/react'
 import { useTranslation } from 'react-i18next'
 import {
   useEdgesInteractions,
@@ -13,14 +14,13 @@ import {
 import ChatWrapper from './chat-wrapper'
 import Button from '@/app/components/base/button'
 import { RefreshCcw01 } from '@/app/components/base/icons/src/vender/line/arrows'
-import { XClose } from '@/app/components/base/icons/src/vender/line/general'
 
 export type ChatWrapperRefType = {
   handleRestart: () => void
 }
 const DebugAndPreview = () => {
   const { t } = useTranslation()
-  const chatRef = useRef({ handleRestart: () => {} })
+  const chatRef = useRef({ handleRestart: () => { } })
   const { handleCancelDebugAndPreviewPanel } = useWorkflowInteractions()
   const { handleNodeCancelRunningStatus } = useNodesInteractions()
   const { handleEdgeCancelRunningStatus } = useEdgesInteractions()
@@ -40,7 +40,7 @@ const DebugAndPreview = () => {
   return (
     <div
       className={cn(
-        'flex flex-col w-[400px] rounded-l-2xl h-full border border-black/[0.02]',
+        'flex flex-col w-[400px] rounded-l-2xl h-full border border-black/2',
       )}
       style={{
         background: 'linear-gradient(156deg, rgba(242, 244, 247, 0.80) 0%, rgba(242, 244, 247, 0.00) 99.43%), var(--white, #FFF)',
@@ -68,7 +68,7 @@ const DebugAndPreview = () => {
             className='flex items-center justify-center w-6 h-6 cursor-pointer'
             onClick={handleCancelDebugAndPreviewPanel}
           >
-            <XClose className='w-4 h-4 text-gray-500' />
+            <RiCloseLine className='w-4 h-4 text-gray-500' />
           </div>
         </div>
       </div>

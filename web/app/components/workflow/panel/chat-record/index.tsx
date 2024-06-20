@@ -5,6 +5,7 @@ import {
   useMemo,
   useState,
 } from 'react'
+import { RiCloseLine } from '@remixicon/react'
 import {
   useStore,
   useWorkflowStore,
@@ -16,7 +17,6 @@ import type { ChatItem } from '@/app/components/base/chat/types'
 import { fetchConvesationMessages } from '@/service/debug'
 import { useStore as useAppStore } from '@/app/components/app/store'
 import Loading from '@/app/components/base/loading'
-import { XClose } from '@/app/components/base/icons/src/vender/line/general'
 
 const ChatRecord = () => {
   const [fetched, setFetched] = useState(false)
@@ -71,7 +71,7 @@ const ChatRecord = () => {
   return (
     <div
       className={`
-        flex flex-col w-[400px] rounded-l-2xl h-full border border-black/[0.02] shadow-xl
+        flex flex-col w-[400px] rounded-l-2xl h-full border border-black/2 shadow-xl
       `}
       style={{
         background: 'linear-gradient(156deg, rgba(242, 244, 247, 0.80) 0%, rgba(242, 244, 247, 0.00) 99.43%), var(--white, #FFF)',
@@ -93,7 +93,7 @@ const ChatRecord = () => {
                 workflowStore.setState({ historyWorkflowData: undefined })
               }}
             >
-              <XClose className='w-4 h-4 text-gray-500' />
+              <RiCloseLine className='w-4 h-4 text-gray-500' />
             </div>
           </div>
           <div className='grow h-0'>
