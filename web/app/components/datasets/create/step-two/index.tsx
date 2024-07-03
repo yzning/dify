@@ -658,8 +658,8 @@ const StepTwo = ({
                     </div>
                   </div>
                   <div className={s.formFooter}>
-                    <Button variant="primary" className={cn(s.button, '!h-8')} onClick={confirmChangeCustomConfig}>{t('datasetCreation.stepTwo.preview')}</Button>
-                    <Button className={cn(s.button, 'ml-2 !h-8')} onClick={resetRules}>{t('datasetCreation.stepTwo.reset')}</Button>
+                    <Button variant="primary" className={cn(s.button)} onClick={confirmChangeCustomConfig}>{t('datasetCreation.stepTwo.preview')}</Button>
+                    <Button className={cn(s.button, 'ml-2')} onClick={resetRules}>{t('datasetCreation.stepTwo.reset')}</Button>
                   </div>
                 </div>
               )}
@@ -775,7 +775,7 @@ const StepTwo = ({
                   <div className={s.label}>
                     {t('datasetSettings.form.retrievalSetting.title')}
                     <div className='leading-[18px] text-xs font-normal text-gray-500'>
-                      <a target='_blank' rel='noopener noreferrer' href='https://docs.dify.ai/features/retrieval-augment' className='text-[#155eef]'>{t('datasetSettings.form.retrievalSetting.learnMore')}</a>
+                      <a target='_blank' rel='noopener noreferrer' href='https://docs.dify.ai/guides/knowledge-base/create-knowledge-and-upload-documents#id-6-retrieval-settings' className='text-[#155eef]'>{t('datasetSettings.form.retrievalSetting.learnMore')}</a>
                       {t('datasetSettings.form.retrievalSetting.longDescription')}
                     </div>
                   </div>
@@ -913,7 +913,7 @@ const StepTwo = ({
               <div className='grow flex items-center'>
                 <div>{t('datasetCreation.stepTwo.previewTitle')}</div>
                 {docForm === DocForm.QA && !previewSwitched && (
-                  <Button className='ml-2 !h-[26px] !py-[3px] !px-2 !text-xs !font-medium !text-primary-600' onClick={previewSwitch}>{t('datasetCreation.stepTwo.previewButton')}</Button>
+                  <Button className='ml-2' variant='secondary-accent' onClick={previewSwitch}>{t('datasetCreation.stepTwo.previewButton')}</Button>
                 )}
               </div>
               <div className='flex items-center justify-center w-6 h-6 cursor-pointer' onClick={hidePreview}>

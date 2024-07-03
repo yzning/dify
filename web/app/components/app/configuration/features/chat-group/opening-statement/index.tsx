@@ -20,6 +20,7 @@ import { getInputKeys } from '@/app/components/base/block-input'
 import ConfirmAddVar from '@/app/components/app/configuration/config-prompt/confirm-add-var'
 import { getNewVar } from '@/utils/var'
 import { varHighlightHTML } from '@/app/components/app/configuration/base/var-highlight'
+import Toast from '@/app/components/base/toast'
 
 const MAX_QUESTION_NUM = 5
 
@@ -93,6 +94,15 @@ const OpeningStatement: FC<IOpeningStatementProps> = ({
   }
 
   const handleConfirm = () => {
+    if (!(tempValue || '').trim()) {
+      Toast.notify({
+        type: 'error',
+        message: t('common.errorMsg.fieldRequired', {
+          field: t('appDebug.openingStatement.title'),
+        }),
+      })
+      return
+    }
     const keys = getInputKeys(tempValue)
     const promptKeys = promptVariables.map(item => item.key)
     let notIncludeKeys: string[] = []
@@ -134,8 +144,20 @@ const OpeningStatement: FC<IOpeningStatementProps> = ({
   const headerRight = !readonly ? (
     isFocus ? (
       <div className='flex items-center space-x-1'>
-        <div className='px-3 leading-[18px] text-xs font-medium text-gray-700 cursor-pointer' onClick={handleCancel}>{t('common.operation.cancel')}</div>
-        <Button className='!h-8 !px-3 text-xs' onClick={handleConfirm} variant="primary">{t('common.operation.save')}</Button>
+        <Button
+          variant='ghost'
+          size='small'
+          onClick={handleCancel}
+        >
+          {t('common.operation.cancel')}
+        </Button>
+        <Button
+          onClick={handleConfirm}
+          variant="primary"
+          size='small'
+        >
+          {t('common.operation.save')}
+        </Button>
       </div>
     ) : (
       <OperationBtn type='edit' actionName={hasValue ? '' : t('appDebug.openingStatement.writeOpener') as string} onClick={handleEdit} />
